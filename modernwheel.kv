@@ -3,7 +3,8 @@
 
 <MainElements>:
     
-    FloatLayout:
+    GridLayout:
+        cols: 1
         size: root.width, root.height
 
         canvas.before:
@@ -12,4 +13,6 @@
             Rectangle:
                 size: self.size
 
-            
+        Button:
+            id: btnResult
+            text: 'Stop'
