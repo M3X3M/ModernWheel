@@ -20,5 +20,18 @@ class ModernwheelApp(App):
         return self.mainElements
 
 
+class readFromFile:
+    def build(self, filename):
+        self.elements_list = []
+        file = open(filename, "r")
+        for line in file:
+            self.elements_list.append(line)
+        file.close()
+        print(self.elements_list)
+
+        
+
+
 if __name__ == '__main__':
-    ModernwheelApp().run()
+    #ModernwheelApp().run()
+    readFromFile().build("dataFile.txt")
