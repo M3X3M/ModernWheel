@@ -1,0 +1,15 @@
+#:kivy 1.11.1
+#:import rgba kivy.utils.rgba
+
+<MainElements>:
+    
+    FloatLayout:
+        size: root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba: rgba('#0a5e00')
+            Rectangle:
+                size: self.size
+
+            
