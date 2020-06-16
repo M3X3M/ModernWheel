@@ -75,7 +75,7 @@ class ModernwheelApp(App):
     #process
     def buttonPress(self, *args):
         #starting the slowing process and redoing it in a given time
-        self.slowingClock = Clock.schedule_interval(self.handleSlowing, .75)
+        self.slowingClock = Clock.schedule_interval(self.handleSlowing, .5)
     
 
 class readFromFile:

@@ -7,12 +7,12 @@
         cols: 1
         size: root.width, root.height
 
-        canvas.before:
-            Color:
-                rgba: rgba('#81006E')
-            Rectangle:
-                size: self.size
-
         Button:
             id: btnResult
             text: 'Stop'
+
+            background_color: rgba('#81006E')
+            background_down: 'btnbg.jpg'
+            background_down_color: rgba('#81006E')
+            font_size: 0.1 * self.width
+
