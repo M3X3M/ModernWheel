@@ -17,21 +17,38 @@ class MainElements(Widget):
     pass
 
 class ModernwheelApp(App):
-
+    ############################################################################
+    #initialising the class
     def build(self):
         self.mainElements = MainElements()
+
+        #getting the members out of the .txt file
         self.elements = readFromFile().build("dataFile.txt")
+
+        #binding the widgets from the .kv file to their corresponding objects
+        #in python
         self.btnResult = self.mainElements.ids['btnResult']
         self.btnResult.bind(on_press = self.buttonPress)
+
+        #attributes
+        self.clock_speed = 0.1
+
+        #running the function that picks a random startnumber in the list
         Clock.schedule_once(self.pickRandom)
         return self.mainElements
 
+    ############################################################################
+    #picking a random startingpoint in the list and starting the animation
     def pickRandom(self, *args):
         self.element_count = len(self.elements)
         self.current_pos = randint(0, self.element_count)
-        self.clock_speed = 0.1
+        
+        #scheduling the clock that changes the buttons text
         self.animClock = Clock.schedule_interval(self.showAnim, self.clock_speed)
 
+    ############################################################################
+    #changing the buttons text and while looping through the list. When we hit
+    #the end, the list just starts again
     def showAnim(self, *args):
         if self.current_pos + 1 <= self.element_count:
             self.btnResult.text = self.elements[self.current_pos - 1]
@@ -40,18 +57,30 @@ class ModernwheelApp(App):
             self.current_pos = 0
             self.btnResult.text = self.elements[self.current_pos]
 
+    ############################################################################
+    #slowing down the whole animation by just rescheduling the running clock, 
+    #but with a slower speed. If it hits a threshhold, it stops completely
     def handleSlowing(self, *args):
         Clock.unschedule(self.animClock)
         self.clock_speed = self.clock_speed + 0.05
-        if self.clock_speed <= .5:
-            self.animClock = Clock.schedule_interval(self.showAnim, self.clock_speed)
+        if self.clock_speed <= .4:
+            self.animClock = Clock.schedule_interval(self.showAnim, 
+                                                            self.clock_speed)
+        else:
+            #unscheduling thus it's no longer needed
+            Clock.unschedule(self.slowingClock)
 
+    ############################################################################
+    #what happens when you press the button. Starts the whole slowing down 
+    #process
     def buttonPress(self, *args):
-        self.handleSlowing()
-        self.slowingClock = Clock.schedule_interval(self.handleSlowing, 1)
+        #starting the slowing process and redoing it in a given time
+        self.slowingClock = Clock.schedule_interval(self.handleSlowing, .75)
     
 
 class readFromFile:
+    ############################################################################
+    #reading the contents out of a text file into a list
     def build(self, filename):
         self.elements_list = []
         file = open(filename, "r")
