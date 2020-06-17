@@ -22,6 +22,10 @@ class ModernwheelApp(App):
     def build(self):
         self.mainElements = MainElements()
 
+        #an integer that saves that state for the button not beautiful but easy
+        #0=ready to slow # 1=slowing # 2=ready to restart
+        self.state = 0
+
         #getting the members out of the .txt file
         self.elements = readFromFile().build("dataFile.txt")
 
@@ -69,13 +73,27 @@ class ModernwheelApp(App):
         else:
             #unscheduling thus it's no longer needed
             Clock.unschedule(self.slowingClock)
+            self.state = 2
 
     ############################################################################
     #what happens when you press the button. Starts the whole slowing down 
     #process
     def buttonPress(self, *args):
-        #starting the slowing process and redoing it in a given time
-        self.slowingClock = Clock.schedule_interval(self.handleSlowing, .5)
+        if self.state == 0:
+            #starting the slowing process and redoing it in a given time
+            self.slowingClock = Clock.schedule_interval(self.handleSlowing, .5)
+            self.state = 1
+
+        elif self.state == 1:
+            pass
+
+        elif self.state == 2:
+            #resetting everything and starting fresh
+            self.clock_speed = 0.1
+            Clock.schedule_once(self.pickRandom)
+            self.state = 0
+
+
     
 
 class readFromFile:
