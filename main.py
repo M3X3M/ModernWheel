@@ -6,6 +6,8 @@ from kivy.uix.widget import Widget
 from kivy.utils import rgba
 from kivy.clock import Clock
 from kivy.uix.button import Button
+from kivy.core.audio import SoundLoader
+from kivy.core.audio import Sound
 
 from random import randint
 from time import sleep
@@ -21,6 +23,9 @@ class ModernwheelApp(App):
     #initialising the class
     def build(self):
         self.mainElements = MainElements()
+
+        #the sound that will be played when the wheel stopps
+        self.soundFile = 'Warzone_Downed_Mate.wav'
 
         #an integer that saves that state for the button not beautiful but easy
         #0=ready to slow # 1=slowing # 2=ready to restart
@@ -71,6 +76,11 @@ class ModernwheelApp(App):
             self.animClock = Clock.schedule_interval(self.showAnim, 
                                                             self.clock_speed)
         else:
+            #playing the predefined sound
+            sound = SoundLoader.load(self.soundFile)
+            if sound:
+                sound.volume = 1
+                sound.play()
             #unscheduling thus it's no longer needed
             Clock.unschedule(self.slowingClock)
             self.state = 2
