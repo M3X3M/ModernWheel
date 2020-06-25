@@ -81,9 +81,11 @@ class ModernwheelApp(App):
             if sound:
                 sound.volume = 1
                 sound.play()
+            self.btnResult.color = rgba('#00cc00')
             #unscheduling thus it's no longer needed
             Clock.unschedule(self.slowingClock)
             self.state = 2
+            sound.unload()
 
     ############################################################################
     #what happens when you press the button. Starts the whole slowing down 
@@ -99,6 +101,8 @@ class ModernwheelApp(App):
 
         elif self.state == 2:
             #resetting everything and starting fresh
+            
+            self.btnResult.color = rgba('#FFFFFF')
             self.clock_speed = 0.1
             Clock.schedule_once(self.pickRandom)
             self.state = 0
